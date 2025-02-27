@@ -1,7 +1,7 @@
 static const ZydisShortString STR_REGISTERS[] =
 {
     ZYDIS_MAKE_SHORTSTRING("none"),
-    // General purpose registers  8-bit
+    /* General purpose registers  8-bit */
     ZYDIS_MAKE_SHORTSTRING("al"),
     ZYDIS_MAKE_SHORTSTRING("cl"),
     ZYDIS_MAKE_SHORTSTRING("dl"),
@@ -22,7 +22,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("r13b"),
     ZYDIS_MAKE_SHORTSTRING("r14b"),
     ZYDIS_MAKE_SHORTSTRING("r15b"),
-    // General purpose registers 16-bit
+    /* General purpose registers 16-bit */
     ZYDIS_MAKE_SHORTSTRING("ax"),
     ZYDIS_MAKE_SHORTSTRING("cx"),
     ZYDIS_MAKE_SHORTSTRING("dx"),
@@ -39,7 +39,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("r13w"),
     ZYDIS_MAKE_SHORTSTRING("r14w"),
     ZYDIS_MAKE_SHORTSTRING("r15w"),
-    // General purpose registers 32-bit
+    /* General purpose registers 32-bit */
     ZYDIS_MAKE_SHORTSTRING("eax"),
     ZYDIS_MAKE_SHORTSTRING("ecx"),
     ZYDIS_MAKE_SHORTSTRING("edx"),
@@ -56,7 +56,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("r13d"),
     ZYDIS_MAKE_SHORTSTRING("r14d"),
     ZYDIS_MAKE_SHORTSTRING("r15d"),
-    // General purpose registers 64-bit
+    /* General purpose registers 64-bit */
     ZYDIS_MAKE_SHORTSTRING("rax"),
     ZYDIS_MAKE_SHORTSTRING("rcx"),
     ZYDIS_MAKE_SHORTSTRING("rdx"),
@@ -73,7 +73,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("r13"),
     ZYDIS_MAKE_SHORTSTRING("r14"),
     ZYDIS_MAKE_SHORTSTRING("r15"),
-    // Floating point legacy registers
+    /* Floating point legacy registers */
     ZYDIS_MAKE_SHORTSTRING("st0"),
     ZYDIS_MAKE_SHORTSTRING("st1"),
     ZYDIS_MAKE_SHORTSTRING("st2"),
@@ -85,7 +85,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("x87control"),
     ZYDIS_MAKE_SHORTSTRING("x87status"),
     ZYDIS_MAKE_SHORTSTRING("x87tag"),
-    // Floating point multimedia registers
+    /* Floating point multimedia registers */
     ZYDIS_MAKE_SHORTSTRING("mm0"),
     ZYDIS_MAKE_SHORTSTRING("mm1"),
     ZYDIS_MAKE_SHORTSTRING("mm2"),
@@ -94,7 +94,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("mm5"),
     ZYDIS_MAKE_SHORTSTRING("mm6"),
     ZYDIS_MAKE_SHORTSTRING("mm7"),
-    // Floating point vector registers 128-bit
+    /* Floating point vector registers 128-bit */
     ZYDIS_MAKE_SHORTSTRING("xmm0"),
     ZYDIS_MAKE_SHORTSTRING("xmm1"),
     ZYDIS_MAKE_SHORTSTRING("xmm2"),
@@ -127,7 +127,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("xmm29"),
     ZYDIS_MAKE_SHORTSTRING("xmm30"),
     ZYDIS_MAKE_SHORTSTRING("xmm31"),
-    // Floating point vector registers 256-bit
+    /* Floating point vector registers 256-bit */
     ZYDIS_MAKE_SHORTSTRING("ymm0"),
     ZYDIS_MAKE_SHORTSTRING("ymm1"),
     ZYDIS_MAKE_SHORTSTRING("ymm2"),
@@ -160,7 +160,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("ymm29"),
     ZYDIS_MAKE_SHORTSTRING("ymm30"),
     ZYDIS_MAKE_SHORTSTRING("ymm31"),
-    // Floating point vector registers 512-bit
+    /* Floating point vector registers 512-bit */
     ZYDIS_MAKE_SHORTSTRING("zmm0"),
     ZYDIS_MAKE_SHORTSTRING("zmm1"),
     ZYDIS_MAKE_SHORTSTRING("zmm2"),
@@ -193,7 +193,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("zmm29"),
     ZYDIS_MAKE_SHORTSTRING("zmm30"),
     ZYDIS_MAKE_SHORTSTRING("zmm31"),
-    // Matrix registers
+    /* Matrix registers */
     ZYDIS_MAKE_SHORTSTRING("tmm0"),
     ZYDIS_MAKE_SHORTSTRING("tmm1"),
     ZYDIS_MAKE_SHORTSTRING("tmm2"),
@@ -202,27 +202,27 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("tmm5"),
     ZYDIS_MAKE_SHORTSTRING("tmm6"),
     ZYDIS_MAKE_SHORTSTRING("tmm7"),
-    // Flags registers
+    /* Flags registers */
     ZYDIS_MAKE_SHORTSTRING("flags"),
     ZYDIS_MAKE_SHORTSTRING("eflags"),
     ZYDIS_MAKE_SHORTSTRING("rflags"),
-    // Instruction-pointer registers
+    /* Instruction-pointer registers */
     ZYDIS_MAKE_SHORTSTRING("ip"),
     ZYDIS_MAKE_SHORTSTRING("eip"),
     ZYDIS_MAKE_SHORTSTRING("rip"),
-    // Segment registers
+    /* Segment registers */
     ZYDIS_MAKE_SHORTSTRING("es"),
     ZYDIS_MAKE_SHORTSTRING("cs"),
     ZYDIS_MAKE_SHORTSTRING("ss"),
     ZYDIS_MAKE_SHORTSTRING("ds"),
     ZYDIS_MAKE_SHORTSTRING("fs"),
     ZYDIS_MAKE_SHORTSTRING("gs"),
-    // Table registers
+    /* Table registers */
     ZYDIS_MAKE_SHORTSTRING("gdtr"),
     ZYDIS_MAKE_SHORTSTRING("ldtr"),
     ZYDIS_MAKE_SHORTSTRING("idtr"),
     ZYDIS_MAKE_SHORTSTRING("tr"),
-    // Test registers
+    /* Test registers */
     ZYDIS_MAKE_SHORTSTRING("tr0"),
     ZYDIS_MAKE_SHORTSTRING("tr1"),
     ZYDIS_MAKE_SHORTSTRING("tr2"),
@@ -231,7 +231,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("tr5"),
     ZYDIS_MAKE_SHORTSTRING("tr6"),
     ZYDIS_MAKE_SHORTSTRING("tr7"),
-    // Control registers
+    /* Control registers */
     ZYDIS_MAKE_SHORTSTRING("cr0"),
     ZYDIS_MAKE_SHORTSTRING("cr1"),
     ZYDIS_MAKE_SHORTSTRING("cr2"),
@@ -248,7 +248,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("cr13"),
     ZYDIS_MAKE_SHORTSTRING("cr14"),
     ZYDIS_MAKE_SHORTSTRING("cr15"),
-    // Debug registers
+    /* Debug registers */
     ZYDIS_MAKE_SHORTSTRING("dr0"),
     ZYDIS_MAKE_SHORTSTRING("dr1"),
     ZYDIS_MAKE_SHORTSTRING("dr2"),
@@ -265,7 +265,7 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("dr13"),
     ZYDIS_MAKE_SHORTSTRING("dr14"),
     ZYDIS_MAKE_SHORTSTRING("dr15"),
-    // Mask registers
+    /* Mask registers */
     ZYDIS_MAKE_SHORTSTRING("k0"),
     ZYDIS_MAKE_SHORTSTRING("k1"),
     ZYDIS_MAKE_SHORTSTRING("k2"),
@@ -274,14 +274,14 @@ static const ZydisShortString STR_REGISTERS[] =
     ZYDIS_MAKE_SHORTSTRING("k5"),
     ZYDIS_MAKE_SHORTSTRING("k6"),
     ZYDIS_MAKE_SHORTSTRING("k7"),
-    // Bound registers
+    /* Bound registers */
     ZYDIS_MAKE_SHORTSTRING("bnd0"),
     ZYDIS_MAKE_SHORTSTRING("bnd1"),
     ZYDIS_MAKE_SHORTSTRING("bnd2"),
     ZYDIS_MAKE_SHORTSTRING("bnd3"),
     ZYDIS_MAKE_SHORTSTRING("bndcfg"),
     ZYDIS_MAKE_SHORTSTRING("bndstatus"),
-    // Uncategorized
+    /* Uncategorized */
     ZYDIS_MAKE_SHORTSTRING("mxcsr"),
     ZYDIS_MAKE_SHORTSTRING("pkru"),
     ZYDIS_MAKE_SHORTSTRING("xcr0"),
