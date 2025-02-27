@@ -45,7 +45,7 @@ static ZyanStatus ZydisDisassemble(ZydisMachineMode machine_mode,
       .runtime_address = runtime_address
     };
 
-    // Derive the stack width from the address width.
+    /* Derive the stack width from the address width. */
     ZydisStackWidth stack_width;
     switch (machine_mode)
     {
