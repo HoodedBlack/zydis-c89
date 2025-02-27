@@ -54,7 +54,7 @@ extern "C" {
 /* Address calculation                                                                            */
 /* ---------------------------------------------------------------------------------------------- */
 
-// TODO: Provide a function that works in minimal-mode and does not require a operand parameter
+/* TODO: Provide a function that works in minimal-mode and does not require a operand parameter */
 
 /**
  * Calculates the absolute address value for the given instruction operand.
