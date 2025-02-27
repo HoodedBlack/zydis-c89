@@ -35,8 +35,8 @@
 /* Address calculation                                                                            */
 /* ---------------------------------------------------------------------------------------------- */
 
-// Signed integer overflow is expected behavior in this function, for wrapping around the
-// instruction pointer on jumps right at the end of the address space.
+/* Signed integer overflow is expected behavior in this function, for wrapping around the
+ instruction pointer on jumps right at the end of the address space. */
 ZYAN_NO_SANITIZE("signed-integer-overflow")
 ZyanStatus ZydisCalcAbsoluteAddress(const ZydisDecodedInstruction* instruction,
     const ZydisDecodedOperand* operand, ZyanU64 runtime_address, ZyanU64* result_address)
@@ -96,10 +96,10 @@ ZyanStatus ZydisCalcAbsoluteAddress(const ZydisDecodedInstruction* instruction,
             case ZYDIS_MACHINE_MODE_REAL_16:
             case ZYDIS_MACHINE_MODE_LONG_COMPAT_32:
             case ZYDIS_MACHINE_MODE_LEGACY_32:
-                // `XBEGIN` is a special case as it doesn't truncate computed address
-                // This behavior is documented by Intel (SDM Vol. 2C):
-                // Use of the 16-bit operand size does not cause this address to be truncated to
-                // 16 bits, unlike a near jump to a relative offset.
+                /* `XBEGIN` is a special case as it doesn't truncate computed address
+                 This behavior is documented by Intel (SDM Vol. 2C):
+                 Use of the 16-bit operand size does not cause this address to be truncated to
+                 16 bits, unlike a near jump to a relative offset. */
                 if ((instruction->operand_width == 16) &&
                     (instruction->mnemonic != ZYDIS_MNEMONIC_XBEGIN))
                 {
@@ -125,9 +125,11 @@ ZyanStatus ZydisCalcAbsoluteAddressEx(const ZydisDecodedInstruction* instruction
     const ZydisDecodedOperand* operand, ZyanU64 runtime_address,
     const ZydisRegisterContext* register_context, ZyanU64* result_address)
 {
-    // TODO: Test this with AGEN/MIB operands
-    // TODO: Add support for Gather/Scatter instructions
-
+    /*
+     TODO: Test this with AGEN/MIB operands
+     TODO: Add support for Gather/Scatter instructions
+    */
+  
     if (!instruction || !operand || !register_context || !result_address)
     {
         return ZYAN_STATUS_INVALID_ARGUMENT;
