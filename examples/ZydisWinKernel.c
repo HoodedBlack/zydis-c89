@@ -108,7 +108,7 @@ DriverEntry(
         return STATUS_UNKNOWN_REVISION;
     }
 
-    // Get the driver's image base and PE headers
+    /* Get the driver's image base and PE headers */
     ULONG_PTR imageBase;
     RtlPcToFileHeader((PVOID)DriverObject->DriverInit, (PVOID*)&imageBase);
     if (imageBase == 0)
@@ -117,10 +117,11 @@ DriverEntry(
     if (ntHeaders == NULL)
         return STATUS_INVALID_IMAGE_FORMAT;
 
-    // Get the section headers of the INIT section
+    /* Get the section headers of the INIT section */
     PIMAGE_SECTION_HEADER section = IMAGE_FIRST_SECTION(ntHeaders);
     PIMAGE_SECTION_HEADER initSection = NULL;
-    for (USHORT i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+    USHORT i;
+    for (i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
     {
         if (memcmp(section->Name, "INIT", sizeof("INIT") - 1) == 0)
         {
@@ -132,8 +133,8 @@ DriverEntry(
     if (initSection == NULL)
         return STATUS_NOT_FOUND;
 
-    // Get the RVAs of the entry point and import directory. If the import directory lies within the INIT section,
-    // stop disassembling when its address is reached. Otherwise, disassemble until the end of the INIT section.
+    /* Get the RVAs of the entry point and import directory. If the import directory lies within the INIT section, */
+    /* stop disassembling when its address is reached. Otherwise, disassemble until the end of the INIT section. */
     const ULONG entryPointRva = (ULONG)((ULONG_PTR)DriverObject->DriverInit - imageBase);
     const ULONG importDirRva = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
     SIZE_T length = initSection->VirtualAddress + initSection->SizeOfRawData - entryPointRva;
@@ -144,7 +145,7 @@ DriverEntry(
     Print("Driver image base: 0x%p, size: 0x%X\n", (PVOID)imageBase, ntHeaders->OptionalHeader.SizeOfImage);
     Print("Entry point RVA: 0x%X (0x%p)\n", entryPointRva, DriverObject->DriverInit);
 
-    // Initialize Zydis decoder and formatter
+    /* Initialize Zydis decoder and formatter */
     ZydisDecoder decoder;
 #ifdef _M_AMD64
     if (!ZYAN_SUCCESS(ZydisDecoderInit(&decoder, ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64)))
@@ -163,7 +164,7 @@ DriverEntry(
     ZyanStatus status;
     CHAR printBuffer[128];
 
-    // Start the decode loop
+    /* Start the decode loop */
     while ((status = ZydisDecoderDecodeFull(&decoder, 
         (PVOID)(imageBase + entryPointRva + readOffset), length - readOffset, &instruction,
         operands)) != ZYDIS_STATUS_NO_MORE_DATA)
@@ -175,7 +176,7 @@ DriverEntry(
             continue;
         }
 
-        // Format and print the instruction
+        /* Format and print the instruction */
         const ZyanU64 instrAddress = (ZyanU64)(imageBase + entryPointRva + readOffset);
         ZydisFormatterFormatInstruction(
             &formatter, &instruction, operands, instruction.operand_count_visible, printBuffer, 
@@ -185,7 +186,7 @@ DriverEntry(
         readOffset += instruction.length;
     }
 
-    // Return an error status so that the driver does not have to be unloaded after running.
+    /* Return an error status so that the driver does not have to be unloaded after running. */
     return STATUS_UNSUCCESSFUL;
 }
 
