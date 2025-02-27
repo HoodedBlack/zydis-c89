@@ -202,7 +202,7 @@ static void AdjustProcessAndThreadPriority(void)
 
 #if defined(ZYAN_LINUX)
     cpu_set_t cpus;
-#else  // FreeBSD
+#else  /* FreeBSD */
     cpuset_t cpus;
 #endif
 
@@ -259,7 +259,8 @@ static ZyanU64 ProcessBuffer(const ZydisDecoder* decoder, const ZydisFormatter* 
         {
             ZYAN_FPRINTF(ZYAN_STDERR, "%sUnexpected decoding error. Data: ",
                 CVT100_ERR(COLOR_ERROR));
-            for (ZyanUSize i = 0; i < ZYAN_MIN(ZYDIS_MAX_INSTRUCTION_LENGTH,
+            ZyanUSize i;
+            for (i = 0; i < ZYAN_MIN(ZYDIS_MAX_INSTRUCTION_LENGTH,
                 length - offset); ++i)
             {
                 ZYAN_FPRINTF(ZYAN_STDERR, "%02X ", (ZyanU8)buffer[offset + i]);
@@ -311,13 +312,13 @@ static void TestPerformance(const ZyanU8* buffer, ZyanUSize length, ZyanBool min
         exit(EXIT_FAILURE);
     }
 
-    // ZydisCacheTable cache;
-    // if (use_cache && !ZYAN_SUCCESS(ZydisDecoderInitCache(&decoder, &cache)))
-    // {
-    //     ZYAN_FPRINTF(ZYAN_STDERR, "%sFailed to initialize decoder-cache%s\n",
-    //         CVT100_ERR(COLOR_ERROR), CVT100_ERR(ZYAN_VT100SGR_RESET));
-    //     exit(EXIT_FAILURE);
-    // }
+    /* ZydisCacheTable cache;
+     if (use_cache && !ZYAN_SUCCESS(ZydisDecoderInitCache(&decoder, &cache)))
+     {
+         ZYAN_FPRINTF(ZYAN_STDERR, "%sFailed to initialize decoder-cache%s\n",
+             CVT100_ERR(COLOR_ERROR), CVT100_ERR(ZYAN_VT100SGR_RESET));
+         exit(EXIT_FAILURE);
+     } */
 
     ZydisFormatter formatter;
     if (format)
@@ -339,13 +340,14 @@ static void TestPerformance(const ZyanU8* buffer, ZyanUSize length, ZyanBool min
     context.format = format;
     context.tokenize = tokenize;
 
-    // Cache warmup
+    /* Cache warmup */
     ProcessBuffer(&decoder, &formatter, &context, buffer, length);
 
-    // Testing
+    /* Testing */
     ZyanU64 count = 0;
     StartCounter();
-    for (ZyanU8 j = 0; j < 100; ++j)
+    ZyanU8 j;
+    for (j = 0; j < 100; ++j)
     {
         count += ProcessBuffer(&decoder, &formatter, &context, buffer, length);
     }
@@ -381,7 +383,8 @@ static void GenerateTestData(FILE* file, ZyanU8 encoding)
     while (count < 100000)
     {
         ZyanU8 data[ZYDIS_MAX_INSTRUCTION_LENGTH];
-        for (int i = 0; i < ZYDIS_MAX_INSTRUCTION_LENGTH; ++i)
+        int i;
+        for (i = 0; i < ZYDIS_MAX_INSTRUCTION_LENGTH; ++i)
         {
             data[i] = rand() % 256;
         }
@@ -460,7 +463,7 @@ static void GenerateTestData(FILE* file, ZyanU8 encoding)
 
 int main(int argc, char** argv)
 {
-    // Enable VT100 escape sequences on Windows, if the output is not redirected
+    /* Enable VT100 escape sequences on Windows, if the output is not redirected */
     g_vt100_stdout = (ZyanTerminalIsTTY(ZYAN_STDSTREAM_OUT) == ZYAN_STATUS_TRUE) &&
                      ZYAN_SUCCESS(ZyanTerminalEnableVT100(ZYAN_STDSTREAM_OUT));
     g_vt100_stderr = (ZyanTerminalIsTTY(ZYAN_STDSTREAM_ERR) == ZYAN_STATUS_TRUE) &&
@@ -512,7 +515,8 @@ int main(int argc, char** argv)
         AdjustProcessAndThreadPriority();
     }
 
-    for (ZyanU8 i = 0; i < ZYAN_ARRAY_LENGTH(tests); ++i)
+    ZyanU8 i;
+    for (i = 0; i < ZYAN_ARRAY_LENGTH(tests); ++i)
     {
         FILE* file;
 
@@ -567,11 +571,11 @@ int main(int argc, char** argv)
                 CVT100_OUT(COLOR_DEFAULT));
             TestPerformance(buffer, length, ZYAN_TRUE , ZYAN_FALSE, ZYAN_FALSE, ZYAN_FALSE);
             TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_FALSE, ZYAN_FALSE, ZYAN_FALSE);
-            // TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_FALSE, ZYAN_FALSE, ZYAN_TRUE);
+            /* TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_FALSE, ZYAN_FALSE, ZYAN_TRUE); */
             TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_TRUE , ZYAN_FALSE, ZYAN_FALSE);
-            // TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_TRUE , ZYAN_FALSE, ZYAN_TRUE);
+            /* TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_TRUE , ZYAN_FALSE, ZYAN_TRUE); */
             TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_TRUE , ZYAN_TRUE , ZYAN_FALSE);
-            // TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_TRUE , ZYAN_TRUE , ZYAN_TRUE);
+            /* TestPerformance(buffer, length, ZYAN_FALSE, ZYAN_TRUE , ZYAN_TRUE , ZYAN_TRUE); */
             ZYAN_PUTS("");
 
         NextFile1:
