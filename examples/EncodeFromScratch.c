@@ -70,7 +70,7 @@ static ZyanUSize AssembleCode(ZyanU8* buffer, ZyanUSize buffer_length)
     ZyanU8* write_ptr = buffer;
     ZyanUSize remaining_length = buffer_length;
 
-    // Assemble `mov rax, 0x1337`.
+    /* Assemble `mov rax, 0x1337`. */
     ZydisEncoderRequest req;
     memset(&req, 0, sizeof(req));
     req.mnemonic = ZYDIS_MNEMONIC_MOV;
@@ -82,7 +82,7 @@ static ZyanUSize AssembleCode(ZyanU8* buffer, ZyanUSize buffer_length)
     req.operands[1].imm.u = 0x1337;
     AppendInstruction(&req, &write_ptr, &remaining_length);
 
-    // Assemble `ret`.
+    /* Assemble `ret`. */
     memset(&req, 0, sizeof(req));
     req.mnemonic = ZYDIS_MNEMONIC_RET;
     req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
@@ -93,18 +93,19 @@ static ZyanUSize AssembleCode(ZyanU8* buffer, ZyanUSize buffer_length)
 
 int main(void)
 {
-    // Allocate 2 pages of memory. We won't need nearly as much, but it simplifies
-    // re-protecting the memory to RWX later.
+    /* Allocate 2 pages of memory. We won't need nearly as much, but it simplifies */
+    /* re-protecting the memory to RWX later. */
     const ZyanUSize page_size = 0x1000;
     const ZyanUSize alloc_size = page_size * 2;
     ZyanU8* buffer = malloc(alloc_size);
 
-    // Assemble our function.
+    /* Assemble our function. */
     const ZyanUSize length = AssembleCode(buffer, alloc_size);
 
-    // Print a hex-dump of the assembled code.
+    /* Print a hex-dump of the assembled code. */
     puts("Created byte-code:");
-    for (ZyanUSize i = 0; i < length; ++i)
+    ZyanUSize i;
+    for (i = 0; i < length; ++i)
     {
         printf("%02X ", buffer[i]);
     }
@@ -112,17 +113,17 @@ int main(void)
 
 #ifdef ZYAN_X64
 
-    // Align pointer to typical page size.
+    /* Align pointer to typical page size. */
     void* aligned = (void*)((ZyanUPointer)buffer & ~(page_size-1));
 
-    // Re-protect the heap region as RWX. Don't do this at home, kids!
+    /* Re-protect the heap region as RWX. Don't do this at home, kids! */
     ExpectSuccess(ZyanMemoryVirtualProtect(aligned, alloc_size, ZYAN_PAGE_EXECUTE_READWRITE));
 
-    // Create a function pointer for our buffer.
+    /* Create a function pointer for our buffer. */
     typedef ZyanU64(*FnPtr)(void);
     const FnPtr func_ptr = (FnPtr)(uintptr_t)buffer;
 
-    // Call the function!
+    /* Call the function! */
     const ZyanU64 result = func_ptr();
     printf("Return value of JITed code: 0x%016" PRIx64 "\n", result);
 
