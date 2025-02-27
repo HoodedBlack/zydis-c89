@@ -64,7 +64,8 @@ static ZyanBool AdvanceIterators(Iterator *iterators, ZyanUSize count)
         return ZYAN_FALSE;
     }
 
-    for (ZyanUSize i = 0; i < count; ++i)
+    ZyanUSize i;
+    for (i = 0; i < count; ++i)
     {
         Iterator *iterator = &iterators[count - 1 - i];
         iterator->value++;
@@ -80,7 +81,8 @@ static ZyanBool AdvanceIterators(Iterator *iterators, ZyanUSize count)
 
 static void PrintBytes(ZyanU8 *bytes, ZyanUSize count)
 {
-    for (ZyanUSize i = 0; i < count; ++i)
+    ZyanUSize i;
+    for (i = 0; i < count; ++i)
     {
         ZYAN_PRINTF("%02X ", bytes[i]);
     }
@@ -88,7 +90,8 @@ static void PrintBytes(ZyanU8 *bytes, ZyanUSize count)
 
 static ZyanI8 GetRelativeOperandIndex(const ZydisEncoderRequest *req)
 {
-    for (ZyanU8 i = 0; i < req->operand_count; ++i)
+    ZyanU8 i;
+    for (i = 0; i < req->operand_count; ++i)
     {
         const ZyanBool is_rip_rel = (req->operands[i].type == ZYDIS_OPERAND_TYPE_MEMORY) &&
             ((req->operands[i].mem.base == ZYDIS_REGISTER_EIP) ||
@@ -486,7 +489,7 @@ static ZyanBool RunRipRelativeTests(void)
     ZydisEncoderRequest req;
     ZyanBool all_passed = ZYAN_TRUE;
 
-    // Basic test
+    /* Basic test */
     ZYAN_MEMSET(&req, 0, sizeof(req));
     req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
     req.mnemonic = ZYDIS_MNEMONIC_XOR;
@@ -499,7 +502,7 @@ static ZyanBool RunRipRelativeTests(void)
     req.operands[1].mem.size = 8;
     all_passed &= RunTest(&req, ZydisMnemonicGetString(req.mnemonic), ZYAN_TRUE);
 
-    // Displacement + immediate
+    /* Displacement + immediate */
     ZYAN_MEMSET(&req, 0, sizeof(req));
     req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
     req.mnemonic = ZYDIS_MNEMONIC_CMP;
@@ -512,7 +515,7 @@ static ZyanBool RunRipRelativeTests(void)
     req.operands[1].imm.u = 0x11223344;
     all_passed &= RunTest(&req, ZydisMnemonicGetString(req.mnemonic), ZYAN_TRUE);
 
-    // EIP-relative
+    /* EIP-relative */
     ZYAN_MEMSET(&req, 0, sizeof(req));
     req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
     req.mnemonic = ZYDIS_MNEMONIC_SUB;
@@ -525,7 +528,7 @@ static ZyanBool RunRipRelativeTests(void)
     req.operands[1].reg.value = ZYDIS_REGISTER_EBX;
     all_passed &= RunTest(&req, ZydisMnemonicGetString(req.mnemonic), ZYAN_TRUE);
 
-    // AMD 3DNow!
+    /* AMD 3DNow! */
     ZYAN_MEMSET(&req, 0, sizeof(req));
     req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
     req.mnemonic = ZYDIS_MNEMONIC_PI2FD;
@@ -588,7 +591,8 @@ static ZyanBool RunRangeTests(void)
         {
             continue;
         }
-        for (int i = 0; i < 8; ++i)
+        int i;
+        for (i = 0; i < 8; ++i)
         {
             ZyanU64 target_address = TEST_RUNTIME_ADDRESS + offset + i;
             ZYAN_MEMSET(&req, 0, sizeof(req));
