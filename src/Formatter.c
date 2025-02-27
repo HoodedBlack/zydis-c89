@@ -352,7 +352,7 @@ ZyanStatus ZydisFormatterSetProperty(ZydisFormatter* formatter, ZydisFormatterPr
         return ZYAN_STATUS_INVALID_ARGUMENT;
     }
 
-    // Set prefix or suffix
+    /* Set prefix or suffix */
     if (base != (ZydisNumericBase)(-1))
     {
         if (value)
@@ -388,8 +388,8 @@ ZyanStatus ZydisFormatterSetHook(ZydisFormatter* formatter, ZydisFormatterFuncti
 
     const void* const temp = *callback;
 
-    // The following code relies on the order of the enum values and the function fields inside
-    // the `ZydisFormatter` struct
+    /* The following code relies on the order of the enum values and the function fields inside */
+    /* the `ZydisFormatter` struct */
 
 #ifdef ZYAN_DEBUG
     const ZyanUPointer* test = (ZyanUPointer*)(&formatter->func_pre_instruction + type);
@@ -507,8 +507,8 @@ ZyanStatus ZydisFormatterFormatOperand(const ZydisFormatter* formatter,
     context.operand         = operand;
     context.user_data       = user_data;
 
-    // We ignore `ZYDIS_STATUS_SKIP_TOKEN` for all operand-functions as it does not make any sense
-    // to skip the only operand printed by this function
+    /* We ignore `ZYDIS_STATUS_SKIP_TOKEN` for all operand-functions as it does not make any sense */
+    /* to skip the only operand printed by this function */
 
     if (formatter->func_pre_operand)
     {
@@ -614,8 +614,8 @@ ZyanStatus ZydisFormatterTokenizeOperand(const ZydisFormatter* formatter,
     context.operand         = operand;
     context.user_data       = user_data;
 
-    // We ignore `ZYDIS_STATUS_SKIP_TOKEN` for all operand-functions as it does not make any sense
-    // to skip the only operand printed by this function
+    /* We ignore `ZYDIS_STATUS_SKIP_TOKEN` for all operand-functions as it does not make any sense */
+    /* to skip the only operand printed by this function */
 
     if (formatter->func_pre_operand)
     {
