@@ -51,9 +51,9 @@ ZyanUSize ZydisStdinRead(void *ctx, ZyanU8* buf, ZyanUSize max_len)
 {
     ZYAN_UNUSED(ctx);
 #ifdef ZYAN_POSIX
-    // `fread` does internal buffering that can result in different code paths to be taken every
-    // time we call it. This is detrimental for fuzzing stability in persistent mode. Use direct
-    // syscall when possible.
+    /* `fread` does internal buffering that can result in different code paths to be taken every */
+    /* time we call it. This is detrimental for fuzzing stability in persistent mode. Use direct */
+    /* syscall when possible. */
     return read(0, buf, max_len);
 #else
     return fread(buf, 1, max_len, ZYAN_STDIN);
@@ -72,8 +72,8 @@ ZyanUSize ZydisLibFuzzerRead(void* ctx, ZyanU8* buf, ZyanUSize max_len)
 {
     ZydisLibFuzzerContext* c = (ZydisLibFuzzerContext*)ctx;
     ZyanUSize len = ZYAN_MIN((ZyanUSize)(c->buf_len - c->read_offs), max_len);
-    // printf("buf_len: %ld, read_offs: %ld, len: %ld, max_len: %ld, ptr: %p\n",
-    //     c->buf_len, c->read_offs, len, max_len, c->buf + c->read_offs);
+    /* printf("buf_len: %ld, read_offs: %ld, len: %ld, max_len: %ld, ptr: %p\n", */
+    /*     c->buf_len, c->read_offs, len, max_len, c->buf + c->read_offs); */
     if (!len)
     {
         return 0;
@@ -82,7 +82,7 @@ ZyanUSize ZydisLibFuzzerRead(void* ctx, ZyanU8* buf, ZyanUSize max_len)
     c->read_offs += len;
     return len;
 }
-#endif // ZYDIS_LIBFUZZER
+#endif /* ZYDIS_LIBFUZZER */
 
 /* ============================================================================================== */
 /* Shared utility functions                                                                       */
@@ -112,7 +112,8 @@ void ZydisPrintInstruction(const ZydisDecodedInstruction* instruction,
     }
     printf("-%u ", instruction->stack_width);
 
-    for (ZyanU8 i = 0; i < instruction->length; ++i)
+    ZyanU8 i;
+    for (i = 0; i < instruction->length; ++i)
     {
         printf("%02X", instruction_bytes[i]);
     }
@@ -150,7 +151,7 @@ void ZydisValidateImmediateSize(ZyanU64 value)
     }
 }
 
-// NOTE: This function doesn't validate flag values, yet.
+/* NOTE: This function doesn't validate flag values, yet. */
 void ZydisValidateEnumRanges(const ZydisDecodedInstruction* insn,
     const ZydisDecodedOperand* operands, ZyanU8 operand_count)
 {
@@ -171,8 +172,9 @@ void ZydisValidateEnumRanges(const ZydisDecodedInstruction* insn,
     ZYDIS_CHECK_ENUM(insn->opcode_map, ZYDIS_OPCODE_MAP_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->opcode_map, ZYDIS_OPCODE_MAP_MAX_VALUE);
 
-    // Operands.
-    for (ZyanU32 i = 0; i < operand_count; ++i)
+    /* Operands. */
+    ZyanU32 i;
+    for (i = 0; i < operand_count; ++i)
     {
         const ZydisDecodedOperand* op = &operands[i];
         ZYDIS_CHECK_ENUM(op->type, ZYDIS_OPERAND_TYPE_MAX_VALUE);
@@ -204,7 +206,7 @@ void ZydisValidateEnumRanges(const ZydisDecodedInstruction* insn,
         }
     }
 
-    // AVX.
+    /* AVX. */
     ZYDIS_CHECK_ENUM(insn->avx.mask.mode, ZYDIS_MASK_MODE_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->avx.mask.reg, ZYDIS_REGISTER_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->avx.broadcast.is_static, ZYAN_TRUE);
@@ -215,19 +217,21 @@ void ZydisValidateEnumRanges(const ZydisDecodedInstruction* insn,
     ZYDIS_CHECK_ENUM(insn->avx.has_sae, ZYAN_TRUE);
     ZYDIS_CHECK_ENUM(insn->avx.has_eviction_hint, ZYAN_TRUE);
 
-    // Meta.
+    /* Meta. */
     ZYDIS_CHECK_ENUM(insn->meta.category, ZYDIS_CATEGORY_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->meta.isa_set, ZYDIS_ISA_SET_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->meta.isa_ext, ZYDIS_ISA_SET_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->meta.branch_type, ZYDIS_BRANCH_TYPE_MAX_VALUE);
     ZYDIS_CHECK_ENUM(insn->meta.exception_class, ZYDIS_EXCEPTION_CLASS_MAX_VALUE);
 
-    // Raw.
-    for (ZyanU32 i = 0; i < ZYAN_ARRAY_LENGTH(insn->raw.prefixes); ++i)
+    /* Raw. */
+    ZyanU32 i;
+    for (i = 0; i < ZYAN_ARRAY_LENGTH(insn->raw.prefixes); ++i)
     {
         ZYDIS_CHECK_ENUM(insn->raw.prefixes[i].type, ZYDIS_PREFIX_TYPE_MAX_VALUE);
     }
-    for (ZyanU32 i = 0; i < ZYAN_ARRAY_LENGTH(insn->raw.imm); ++i)
+    ZyanU32 i;
+    for (i = 0; i < ZYAN_ARRAY_LENGTH(insn->raw.imm); ++i)
     {
         ZYDIS_CHECK_ENUM(insn->raw.imm[i].is_signed, ZYAN_TRUE);
         ZYDIS_CHECK_ENUM(insn->raw.imm[i].is_relative, ZYAN_TRUE);
@@ -241,10 +245,10 @@ void ZydisValidateInstructionIdentity(const ZydisDecodedInstruction* insn1,
     const ZydisDecodedOperand* operands1, const ZydisDecodedInstruction* insn2,
     const ZydisDecodedOperand* operands2)
 {
-    // TODO: Probably a good idea to input validate operand_counts to this function
-    // TODO: I don't like accessing buffers without having their actual sizes available...
+    /* TODO: Probably a good idea to input validate operand_counts to this function */
+    /* TODO: I don't like accessing buffers without having their actual sizes available... */
 
-    // Special case, `xchg rAX, rAX` is an alias for `NOP`
+    /* Special case, `xchg rAX, rAX` is an alias for `NOP` */
     if ((insn1->mnemonic == ZYDIS_MNEMONIC_XCHG) &&
         (insn1->operand_count == 2) &&
         (operands1[0].type == ZYDIS_OPERAND_TYPE_REGISTER) &&
@@ -283,8 +287,8 @@ void ZydisValidateInstructionIdentity(const ZydisDecodedInstruction* insn1,
         fputs("Basic instruction attributes mismatch\n", ZYAN_STDERR);
         abort();
     }
-
-    for (ZyanU8 i = 0; i < insn1->operand_count; ++i)
+    ZyanU8 i;
+    for (i = 0; i < insn1->operand_count; ++i)
     {
         const ZydisDecodedOperand *op1 = &operands1[i];
         const ZydisDecodedOperand *op2 = &operands2[i];
@@ -305,8 +309,8 @@ void ZydisValidateInstructionIdentity(const ZydisDecodedInstruction* insn1,
             break;
         case ZYDIS_OPERAND_TYPE_MEMORY:
         {
-            // Usually this check is done after verifying instruction identity but in this case
-            // we have to fail early
+            /* Usually this check is done after verifying instruction identity but in this case */
+            /* we have to fail early */
             if (insn1->length < insn2->length)
             {
                 fputs("Suboptimal output size detected\n", ZYAN_STDERR);
@@ -409,7 +413,8 @@ static void ZydisReEncodeInstructionAbsolute(ZydisEncoderRequest* req,
     runtime_address -= insn2->length;
 
     ZyanBool has_relative = ZYAN_FALSE;
-    for (ZyanU8 i = 0; i < req->operand_count; ++i)
+    ZyanU8 i;
+    for (i = 0; i < req->operand_count; ++i)
     {
         const ZydisDecodedOperand *decoded_op = &insn2_operands[i];
         ZydisEncoderOperand *op = &req->operands[i];
@@ -529,8 +534,8 @@ int ZydisFuzzerInit(void)
     }
 
 #ifdef ZYAN_WINDOWS
-    // The `stdin` pipe uses text-mode on Windows platforms by default. We need it to be opened in
-    // binary mode
+    /* The `stdin` pipe uses text-mode on Windows platforms by default. We need it to be opened in */
+    /* binary mode */
     (void)_setmode(_fileno(ZYAN_STDIN), _O_BINARY);
 #endif
 
@@ -563,10 +568,10 @@ int LLVMFuzzerTestOneInput(ZyanU8 *buf, ZyanUSize len)
 }
 
 #ifdef __cplusplus
-} // extern "C"
+} /* extern "C" */
 #endif
 
-#else // !ZYDIS_LIBFUZZER
+#else /* !ZYDIS_LIBFUZZER */
 
 int main(void)
 {
@@ -586,6 +591,6 @@ int main(void)
 #endif
 }
 
-#endif // ZYDIS_LIBFUZZER
+#endif /* ZYDIS_LIBFUZZER */
 
 /* ============================================================================================== */
