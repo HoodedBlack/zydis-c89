@@ -160,8 +160,8 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 #ifdef ZYAN_WINDOWS
-    // The `stdin` pipe uses text-mode on Windows platforms by default. We need it to be opened in
-    // binary mode
+    /* The `stdin` pipe uses text-mode on Windows platforms by default. We need it to be opened in */
+    /* binary mode */
     if (file == ZYAN_STDIN)
     {
         (void)_setmode(_fileno(ZYAN_STDIN), _O_BINARY);
