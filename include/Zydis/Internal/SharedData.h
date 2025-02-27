@@ -41,7 +41,7 @@ extern "C" {
 /* Enums and types                                                                                */
 /* ============================================================================================== */
 
-// MSVC does not like types other than (un-)signed int for bit-fields
+/* MSVC does not like types other than (un-)signed int for bit-fields */
 #ifdef ZYAN_MSVC
 #   pragma warning(push)
 #   pragma warning(disable:4214)
@@ -156,7 +156,7 @@ typedef enum ZydisInternalElementType_
  */
 typedef enum ZydisImplicitRegisterType_
 {
-    // TODO: Rename OSZ|ASZ|SSZ_
+    /* TODO: Rename OSZ|ASZ|SSZ_ */
     ZYDIS_IMPLREG_TYPE_STATIC,
     ZYDIS_IMPLREG_TYPE_GPR_OSZ,
     ZYDIS_IMPLREG_TYPE_GPR_ASZ,
@@ -182,7 +182,7 @@ typedef enum ZydisImplicitRegisterType_
  */
 typedef enum ZydisImplicitMemBase_
 {
-    // TODO: Rename OSZ|ASZ|SSZ_
+    /* TODO: Rename OSZ|ASZ|SSZ_ */
     ZYDIS_IMPLMEM_BASE_AGPR_REG,
     ZYDIS_IMPLMEM_BASE_AGPR_RM,
     ZYDIS_IMPLMEM_BASE_AAX,
@@ -205,8 +205,8 @@ typedef enum ZydisImplicitMemBase_
 
 /* ---------------------------------------------------------------------------------------------- */
 
-// MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct
-// enum types
+/* MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct */
+/* enum types */
 ZYAN_STATIC_ASSERT(ZYDIS_SEMANTIC_OPTYPE_REQUIRED_BITS     <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_OPERAND_VISIBILITY_REQUIRED_BITS  <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_OPERAND_ACTION_REQUIRED_BITS      <=  8);
@@ -706,8 +706,8 @@ typedef enum ZydisMaskOverride_
 #define ZYDIS_OPDEF_GET_MEM_HIGH_BIT(operand_definition) \
     (((operand_definition) >> ZYDIS_MEMOP_TYPE_REQUIRED_BITS) & 0x01)
 
-// MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct
-// enum types
+/* MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct */
+/* enum types */
 ZYAN_STATIC_ASSERT(ZYDIS_MNEMONIC_REQUIRED_BITS        <= 16);
 ZYAN_STATIC_ASSERT(ZYDIS_CATEGORY_REQUIRED_BITS        <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_ISA_SET_REQUIRED_BITS         <=  8);
@@ -758,7 +758,7 @@ ZYAN_STATIC_ASSERT(ZYDIS_RW_ACTION_REQUIRED_BITS       <=  8);
     ZYDIS_INSTRUCTION_DEFINITION_BASE_VECTOR; \
     ZyanBool is_gather                     ZYAN_BITFIELD( 1); \
     ZyanBool no_source_dest_match          ZYAN_BITFIELD( 1); \
-    ZyanBool no_source_source_match        ZYAN_BITFIELD( 1)        // TODO: Could be moved to VEX
+    ZyanBool no_source_source_match        ZYAN_BITFIELD( 1)        /* TODO: Could be moved to VEX */
 
 /**
  * Defines the `ZydisInstructionDefinition` struct.
@@ -807,8 +807,8 @@ typedef struct ZydisInstructionDefinitionXOP_
     ZYDIS_INSTRUCTION_DEFINITION_BASE_VECTOR;
 } ZydisInstructionDefinitionXOP;
 
-// MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct
-// enum types
+/* MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct */
+/* enum types */
 ZYAN_STATIC_ASSERT(ZYDIS_VEX_STATIC_BROADCAST_REQUIRED_BITS  <=  8);
 
 /**
@@ -824,8 +824,8 @@ typedef struct ZydisInstructionDefinitionVEX_
 
 #ifndef ZYDIS_DISABLE_AVX512
 
-// MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct
-// enum types
+/* MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct */
+/* enum types */
 ZYAN_STATIC_ASSERT(ZYDIS_IVECTOR_LENGTH_REQUIRED_BITS        <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_TUPLETYPE_REQUIRED_BITS             <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_IELEMENT_SIZE_REQUIRED_BITS         <=  8);
@@ -857,8 +857,8 @@ typedef struct ZydisInstructionDefinitionEVEX_
 
 #ifndef ZYDIS_DISABLE_KNC
 
-// MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct
-// enum types
+/* MSVC does not correctly execute the `pragma pack(1)` compiler-directive, if we use the correct */
+/* enum types */
 ZYAN_STATIC_ASSERT(ZYDIS_MVEX_FUNC_REQUIRED_BITS             <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_MASK_POLICY_REQUIRED_BITS           <=  8);
 ZYAN_STATIC_ASSERT(ZYDIS_MVEX_STATIC_BROADCAST_REQUIRED_BITS <=  8);
