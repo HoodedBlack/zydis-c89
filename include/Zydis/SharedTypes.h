@@ -47,8 +47,8 @@ extern "C" {
 /* ---------------------------------------------------------------------------------------------- */
 
 #define ZYDIS_MAX_INSTRUCTION_LENGTH    15
-#define ZYDIS_MAX_OPERAND_COUNT         10 // TODO: Auto generate
-#define ZYDIS_MAX_OPERAND_COUNT_VISIBLE  5 // TODO: Auto generate
+#define ZYDIS_MAX_OPERAND_COUNT         10 /* TODO: Auto generate */
+#define ZYDIS_MAX_OPERAND_COUNT_VISIBLE  5 /* TODO: Auto generate */
 
 /* ---------------------------------------------------------------------------------------------- */
 
@@ -233,7 +233,7 @@ typedef enum ZydisOperandType_
     ZYDIS_OPERAND_TYPE_REQUIRED_BITS = ZYAN_BITS_TO_REPRESENT(ZYDIS_OPERAND_TYPE_MAX_VALUE)
 } ZydisOperandType;
 
-// If asserts are failing here remember to update encoder table generator before fixing asserts
+/* If asserts are failing here remember to update encoder table generator before fixing asserts */
 ZYAN_STATIC_ASSERT(ZYAN_BITS_TO_REPRESENT(
     ZYDIS_OPERAND_TYPE_MAX_VALUE - ZYDIS_OPERAND_TYPE_REGISTER) == 2);
 
@@ -463,10 +463,10 @@ typedef enum ZydisOpcodeMap_
     ZYDIS_OPCODE_MAP_0F,
     ZYDIS_OPCODE_MAP_0F38,
     ZYDIS_OPCODE_MAP_0F3A,
-    ZYDIS_OPCODE_MAP_MAP4, // not used
+    ZYDIS_OPCODE_MAP_MAP4, /* not used */
     ZYDIS_OPCODE_MAP_MAP5,
     ZYDIS_OPCODE_MAP_MAP6,
-    ZYDIS_OPCODE_MAP_MAP7, // not used
+    ZYDIS_OPCODE_MAP_MAP7, /* not used */
     ZYDIS_OPCODE_MAP_0F0F,
     ZYDIS_OPCODE_MAP_XOP8,
     ZYDIS_OPCODE_MAP_XOP9,
@@ -704,17 +704,17 @@ typedef ZyanU64 ZydisInstructionAttributes;
 /**
  * The instruction has the operand-size override prefix (`0x66`).
  */
-#define ZYDIS_ATTRIB_HAS_OPERANDSIZE            (1ULL << 43) // TODO: rename
+#define ZYDIS_ATTRIB_HAS_OPERANDSIZE            (1ULL << 43) /* TODO: rename */
 /**
  * The instruction has the address-size override prefix (`0x67`).
  */
-#define ZYDIS_ATTRIB_HAS_ADDRESSSIZE            (1ULL << 44) // TODO: rename
+#define ZYDIS_ATTRIB_HAS_ADDRESSSIZE            (1ULL << 44) /* TODO: rename */
 /**
  * The instruction has the `EVEX.b` bit set.
  *
  * This attribute is mainly used by the encoder.
  */
-#define ZYDIS_ATTRIB_HAS_EVEX_B                 (1ULL << 45) // TODO: rename
+#define ZYDIS_ATTRIB_HAS_EVEX_B                 (1ULL << 45) /* TODO: rename */
 
 /**
  * @}
