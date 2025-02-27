@@ -63,18 +63,17 @@ def merge_headers(
     # Print the header we emit next & the include stack (if non-root).
     include_stack = []
     if stack:
-        include_stack = [
-            '//', 
-            '// Include stack:', 
-            *(f'//   - {x}' for x in stack)
+        include_stack = [ 
+            '/* Include stack: */', 
+            *(f'/*   - {x} */' for x in stack)
         ]
 
     filtered = [
         f'',
-        f'//',
-        f'// Header: {header}',
+        f'/*',
+        f'/* Header: {header} */',
         *include_stack,
-        f'//',
+        f'*/',
         f'',
     ]
 
@@ -108,9 +107,9 @@ def merge_sources(*, source_dir: Path, covered_headers: Set[Path]):
         # Print some comments to show where the code is from.
         output += [
             f'',
-            f'//',
-            f'// Source file: {source_file}',
-            f'//',
+            f'/*',
+            f'/* Source file: {source_file} */',
+            f'*/',
             f'',
         ]
 
