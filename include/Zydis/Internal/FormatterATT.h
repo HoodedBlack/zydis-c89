@@ -119,31 +119,31 @@ static const ZydisFormatter FORMATTER_ATT =
     /* hex_force_leading_number */ ZYAN_FALSE,
     /* number_format            */
     {
-        // ZYDIS_NUMERIC_BASE_DEC
+        /* ZYDIS_NUMERIC_BASE_DEC */
         {
-            // Prefix
+            /* Prefix */
             {
                 /* string       */ ZYAN_NULL,
                 /* string_data  */ ZYAN_DEFINE_STRING_VIEW(""),
                 /* buffer       */ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             },
-            // Suffix
+            /* Suffix */
             {
                 /* string       */ ZYAN_NULL,
                 /* string_data  */ ZYAN_DEFINE_STRING_VIEW(""),
                 /* buffer       */ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             }
         },
-        // ZYDIS_NUMERIC_BASE_HEX
+        /* ZYDIS_NUMERIC_BASE_HEX */
         {
-            // Prefix
+            /* Prefix */
             {
                 /* string       */ &FORMATTER_ATT.number_format[
                                      ZYDIS_NUMERIC_BASE_HEX][0].string_data,
                 /* string_data  */ ZYAN_DEFINE_STRING_VIEW("0x"),
                 /* buffer       */ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             },
-            // Suffix
+            /* Suffix */
             {
                 /* string       */ ZYAN_NULL,
                 /* string_data  */ ZYAN_DEFINE_STRING_VIEW(""),
@@ -180,4 +180,4 @@ static const ZydisFormatter FORMATTER_ATT =
 }
 #endif
 
-#endif // ZYDIS_FORMATTER_ATT_H
+#endif /* ZYDIS_FORMATTER_ATT_H */
