@@ -174,7 +174,7 @@ ZyanStatus ZydisFormatterBufferRestore(ZydisFormatterBuffer* buffer, ZyanUPointe
         const ZyanUSize delta = (ZyanUPointer)buffer->string.vector.data - state;
         buffer->capacity += delta;
         buffer->string.vector.data = (void*)state;
-        buffer->string.vector.size = 1; // TODO: Restore size?
+        buffer->string.vector.size = 1; /* TODO: Restore size? */
         buffer->string.vector.capacity = ZYAN_MIN(buffer->capacity, 255);
         *(char*)buffer->string.vector.data = '\0';
     } else
