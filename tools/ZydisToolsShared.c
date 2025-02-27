@@ -51,13 +51,13 @@ ZyanBool g_vt100_stderr;
 
 void InitVT100(void)
 {
-    // See https://no-color.org/ for more information about this informal standard.
+    /* See https://no-color.org/ for more information about this informal standard. */
     char* env_no_color = ZYAN_GETENV("NO_COLOR");
     char* env_force_color = ZYAN_GETENV("FORCE_COLOR");
     ZyanBool no_color = ((env_no_color != ZYAN_NULL) && (env_no_color[0] != '\0'));
     ZyanBool force_color = ((env_force_color != ZYAN_NULL) && (env_force_color[0] != '\0'));
 
-    // Enable VT100 escape sequences on Windows, if the output is not redirected
+    /* Enable VT100 escape sequences on Windows, if the output is not redirected */
     g_vt100_stdout = force_color || (!no_color &&
         (ZyanTerminalIsTTY(ZYAN_STDSTREAM_OUT) == ZYAN_STATUS_TRUE) &&
         ZYAN_SUCCESS(ZyanTerminalEnableVT100(ZYAN_STDSTREAM_OUT)));
