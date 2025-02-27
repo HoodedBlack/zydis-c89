@@ -161,7 +161,7 @@ extern "C" {
         ZYAN_CHECK(ZydisStringAppendShort(&buffer->string, &STR_ ## name)); \
     }
 
-// TODO: Implement `letter_case` for predefined tokens
+/* TODO: Implement `letter_case` for predefined tokens */
 
 /**
  * Appends a string (`STR_`-prefix) or a predefined token-list (`TOK_`-prefix).
@@ -189,7 +189,7 @@ extern "C" {
 /* Buffer                                                                                         */
 /* ---------------------------------------------------------------------------------------------- */
 
-// MSVC does not like the C99 flexible-array extension
+/* MSVC does not like the C99 flexible-array extension */
 #ifdef ZYAN_MSVC
 #   pragma warning(push)
 #   pragma warning(disable:4200)
@@ -321,4 +321,4 @@ ZyanStatus ZydisFormatterBasePrintDecorator(const ZydisFormatter* formatter,
 }
 #endif
 
-#endif // ZYDIS_FORMATTER_BASE_H
+#endif /* ZYDIS_FORMATTER_BASE_H */
