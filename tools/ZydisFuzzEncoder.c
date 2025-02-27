@@ -36,11 +36,11 @@
 /* Fuzz target                                                                                    */
 /* ============================================================================================== */
 
-// TODO: This could check `EVEX`/`MVEX` stuff as well
+/* TODO: This could check `EVEX`/`MVEX` stuff as well */
 void ZydisCompareRequestToInstruction(const ZydisEncoderRequest *request,
     const ZydisDecodedInstruction *insn, const ZydisDecodedOperand* operands, const ZyanU8 *insn_bytes)
 {
-    // Special case, `xchg rAX, rAX` is an alias for `NOP`
+    /* Special case, `xchg rAX, rAX` is an alias for `NOP` */
     if ((request->mnemonic == ZYDIS_MNEMONIC_XCHG) &&
         (request->operand_count == 2) &&
         (request->operands[0].type == ZYDIS_OPERAND_TYPE_REGISTER) &&
@@ -59,7 +59,7 @@ void ZydisCompareRequestToInstruction(const ZydisEncoderRequest *request,
         }
     }
 
-    // Handle possible KNC overlap
+    /* Handle possible KNC overlap */
     ZydisDecodedInstruction knc_insn;
     ZydisDecodedOperand knc_operands[ZYDIS_MAX_OPERAND_COUNT];
     if (request->mnemonic != insn->mnemonic)
@@ -91,7 +91,7 @@ void ZydisCompareRequestToInstruction(const ZydisEncoderRequest *request,
         (request->machine_mode != ZYDIS_MACHINE_MODE_LONG_64) &&
         (request->prefixes & ZYDIS_ATTRIB_HAS_SEGMENT_DS))
     {
-        // Encoder allows specifying DS override even when it might be interpreted as NOTRACK
+        /* Encoder allows specifying DS override even when it might be interpreted as NOTRACK */
         ZyanU64 acceptable_prefixes = (request->prefixes & (~ZYDIS_ATTRIB_HAS_SEGMENT_DS)) |
                                       ZYDIS_ATTRIB_HAS_NOTRACK;
         prefixes_match = ((insn->attributes & acceptable_prefixes) == acceptable_prefixes);
@@ -105,7 +105,8 @@ void ZydisCompareRequestToInstruction(const ZydisEncoderRequest *request,
         abort();
     }
 
-    for (ZyanU8 i = 0; i < insn->operand_count_visible; ++i)
+    ZyanU8 i;
+    for (i = 0; i < insn->operand_count_visible; ++i)
     {
         const ZydisEncoderOperand *op1 = &request->operands[i];
         const ZydisDecodedOperand *op2 = &operands[i];
@@ -209,8 +210,8 @@ int ZydisFuzzTarget(ZydisStreamRead read_fn, void *stream_ctx)
         return EXIT_SUCCESS;
     }
 
-    // Sanitization greatly improves coverage, without it most inputs will fail at basic checks
-    // inside `ZydisEncoderCheckRequestSanity`
+    /* Sanitization greatly improves coverage, without it most inputs will fail at basic checks */
+    /* inside `ZydisEncoderCheckRequestSanity` */
     request.operand_count %= ZYDIS_ENCODER_MAX_OPERANDS + 1;
     ZYDIS_SANITIZE_MASK32(request.allowed_encodings, ZydisEncodableEncoding,
         ZYDIS_ENCODABLE_ENCODING_MAX_VALUE);
@@ -230,7 +231,8 @@ int ZydisFuzzTarget(ZydisStreamRead read_fn, void *stream_ctx)
         ZYDIS_CONVERSION_MODE_MAX_VALUE);
     ZYDIS_SANITIZE_ENUM(request.mvex.rounding, ZydisRoundingMode, ZYDIS_ROUNDING_MODE_MAX_VALUE);
     ZYDIS_SANITIZE_ENUM(request.mvex.swizzle, ZydisSwizzleMode, ZYDIS_SWIZZLE_MODE_MAX_VALUE);
-    for (ZyanU8 i = 0; i < request.operand_count; ++i)
+    ZyanU8 i;
+    for (i = 0; i < request.operand_count; ++i)
     {
         ZydisEncoderOperand *op = &request.operands[i];
         op->type = (ZydisOperandType)(ZYDIS_OPERAND_TYPE_REGISTER +
