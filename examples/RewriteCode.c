@@ -63,10 +63,11 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    // Parse arguments.
+    /* Parse arguments. */
     uint8_t bytes[ZYDIS_MAX_INSTRUCTION_LENGTH];
     size_t num_bytes = ZYAN_MIN(ZYDIS_MAX_INSTRUCTION_LENGTH, argc - 1);
-    for (size_t i = 0; i < num_bytes; ++i)
+    size_t i;
+    for (i = 0; i < num_bytes; ++i)
     {
         unsigned long int val = strtoul(argv[i + 1], NULL, 16);
         if (errno == ERANGE)
@@ -83,11 +84,11 @@ int main(int argc, char** argv)
         bytes[i] = (uint8_t)val;
     }
 
-    // Initialize decoder in X86-64 mode.
+    /* Initialize decoder in X86-64 mode. */
     ZydisDecoder decoder;
     ExpectSuccess(ZydisDecoderInit(&decoder, ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64));
 
-    // Attempt to decode the given bytes as an X86-64 instruction.
+    /* Attempt to decode the given bytes as an X86-64 instruction. */
     ZydisDecodedInstruction instr;
     ZydisDecodedOperand operands[ZYDIS_MAX_OPERAND_COUNT];
     ZyanStatus status = ZydisDecoderDecodeFull(&decoder, bytes, num_bytes, &instr, operands);
@@ -97,24 +98,24 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    // Initialize the formatter.
+    /* Initialize the formatter. */
     ZydisFormatter fmt;
     ExpectSuccess(ZydisFormatterInit(&fmt, ZYDIS_FORMATTER_STYLE_INTEL));
 
-    // Format & print the original instruction.
+    /* Format & print the original instruction. */
     char fmt_buf[256];
     ExpectSuccess(ZydisFormatterFormatInstruction(&fmt, &instr, operands,
         instr.operand_count_visible, fmt_buf, sizeof(fmt_buf), 0, NULL));
     printf("Original instruction: %s\n", fmt_buf);
 
-    // Create an encoder request from the previously decoded instruction.
+    /* Create an encoder request from the previously decoded instruction. */
     ZydisEncoderRequest enc_req;
     ExpectSuccess(ZydisEncoderDecodedInstructionToEncoderRequest(&instr, operands,
         instr.operand_count_visible, &enc_req));
 
-    // Now, change some things about the instruction!
+    /* Now, change some things about the instruction! */
 
-    // Change `jz` -> `jnz` and `add` -> `sub`.
+    /* Change `jz` -> `jnz` and `add` -> `sub`. */
     switch (enc_req.mnemonic)
     {
         case ZYDIS_MNEMONIC_ADD:
@@ -124,44 +125,45 @@ int main(int argc, char** argv)
             enc_req.mnemonic = ZYDIS_MNEMONIC_JNZ;
             break;
         default:
-            // Don't change other instructions.
+            /* Don't change other instructions. */
             break;
     }
 
-    // Walk the operand list and look for things to change.
-    for (int i = 0; i < enc_req.operand_count; ++i)
+    /* Walk the operand list and look for things to change. */
+    int i;
+    for (i = 0; i < enc_req.operand_count; ++i)
     {
         ZydisEncoderOperand *op = &enc_req.operands[i];
 
         switch (op->type)
         {
         case ZYDIS_OPERAND_TYPE_IMMEDIATE:
-            // For immediate operands, change the constant to `0x42`.
+            /* For immediate operands, change the constant to `0x42`. */
             op->imm.u = 0x42;
             break;
         case ZYDIS_OPERAND_TYPE_MEMORY:
-            // For memory operands, change the displacement to `0x1337` and the scale to `2`.
+            /* For memory operands, change the displacement to `0x1337` and the scale to `2`. */
             op->mem.displacement = 0x1337;
             break;
         default:
-            // Any other operands remain unchanged.
+            /* Any other operands remain unchanged. */
             break;
         }
     }
 
-    // Encode the instruction back to raw bytes.
+    /* Encode the instruction back to raw bytes. */
     uint8_t new_bytes[ZYDIS_MAX_INSTRUCTION_LENGTH];
     ZyanUSize new_instr_length = sizeof(new_bytes);
     ExpectSuccess(ZydisEncoderEncodeInstruction(&enc_req, new_bytes, &new_instr_length));
 
-    // Decode and print the new instruction. We re-use the old buffers.
+    /* Decode and print the new instruction. We re-use the old buffers. */
     ExpectSuccess(ZydisDecoderDecodeFull(&decoder, new_bytes, new_instr_length, &instr,
         operands));
     ExpectSuccess(ZydisFormatterFormatInstruction(&fmt, &instr, operands,
         instr.operand_count_visible, fmt_buf, sizeof(fmt_buf), 0, NULL));
     printf("New instruction:      %s\n", fmt_buf);
 
-    // Print the new instruction as hex-bytes.
+    /* Print the new instruction as hex-bytes. */
     printf("New raw bytes:        ");
     for (ZyanUSize i = 0; i < new_instr_length; ++i)
     {
