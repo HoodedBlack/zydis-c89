@@ -56,11 +56,13 @@ ZyanStatus ZydisFormatterIntelFormatInstruction(const ZydisFormatter* formatter,
 
     ZyanUPointer state_mnemonic;
     ZYDIS_BUFFER_REMEMBER(buffer, state_mnemonic);
-    for (ZyanU8 i = 0; i < context->instruction->operand_count_visible; ++i)
+
+    ZyanU8 i;
+    for (i = 0; i < context->instruction->operand_count_visible; ++i)
     {
         const ZydisDecodedOperand* const operand = &context->operands[i];
 
-        // Print embedded-mask registers as decorator instead of a regular operand
+        /* Print embedded-mask registers as decorator instead of a regular operand */
         if ((i == 1) && (operand->type == ZYDIS_OPERAND_TYPE_REGISTER) &&
             (operand->encoding == ZYDIS_OPERAND_ENCODING_MASK))
         {
@@ -78,7 +80,7 @@ ZyanStatus ZydisFormatterIntelFormatInstruction(const ZydisFormatter* formatter,
             ZYDIS_BUFFER_APPEND(buffer, DELIM_MNEMONIC);
         }
 
-        // Set current operand
+        /* Set current operand */
         context->operand = operand;
 
         ZyanStatus status;
@@ -218,7 +220,7 @@ ZyanStatus ZydisFormatterIntelFormatOperandMEM(const ZydisFormatter* formatter,
         (context->operand->mem.base  == ZYDIS_REGISTER_EIP ) ||
         (context->operand->mem.base  == ZYDIS_REGISTER_RIP )))
     {
-        // EIP/RIP-relative or absolute-displacement address operand
+        /* EIP/RIP-relative or absolute-displacement address operand */
         ZYAN_CHECK(formatter->func_print_address_abs(formatter, buffer, context));
     } else
     {
@@ -226,7 +228,7 @@ ZyanStatus ZydisFormatterIntelFormatOperandMEM(const ZydisFormatter* formatter,
         const ZyanBool should_print_idx = context->operand->mem.index != ZYDIS_REGISTER_NONE;
         const ZyanBool neither_reg_nor_idx = !should_print_reg && !should_print_idx;
 
-        // Regular memory operand
+        /* Regular memory operand */
         if (should_print_reg)
         {
             ZYAN_CHECK(formatter->func_print_register(formatter, buffer, context,
@@ -403,9 +405,9 @@ ZyanStatus ZydisFormatterIntelFormatInstructionMASM(const ZydisFormatter* format
     ZYAN_ASSERT(buffer);
     ZYAN_ASSERT(context);
 
-    // Force the formatter to always call our MASM `ZYDIS_FORMATTER_PRINT_ADDRESS_ABS` function.
-    // This implicitly omits printing of the `RIP`/`EIP` registers for `RIP`/`EIP`-relative
-    // memory operands
+    /* Force the formatter to always call our MASM `ZYDIS_FORMATTER_PRINT_ADDRESS_ABS` function.
+     This implicitly omits printing of the `RIP`/`EIP` registers for `RIP`/`EIP`-relative
+     memory operands */
     context->runtime_address = 0;
 
     return ZydisFormatterIntelFormatInstruction(formatter, buffer, context);
