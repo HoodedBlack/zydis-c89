@@ -42,12 +42,12 @@ int main(void)
         0x88, 0xFC, 0xDA, 0x02, 0x00
     };
 
-    // The runtime address (instruction pointer) was chosen arbitrarily here in order to better
-    // visualize relative addressing. In your actual program, set this to e.g. the memory address
-    // that the code being disassembled was read from.
+    /* The runtime address (instruction pointer) was chosen arbitrarily here in order to better */
+    /* visualize relative addressing. In your actual program, set this to e.g. the memory address */
+    /* that the code being disassembled was read from. */
     ZyanU64 runtime_address = 0x007FFFFFFF400000;
 
-    // Loop over the instructions in our buffer.
+    /* Loop over the instructions in our buffer. */
     ZyanUSize offset = 0;
     ZydisDisassembledInstruction instruction;
     while (ZYAN_SUCCESS(ZydisDisassembleIntel(
