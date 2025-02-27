@@ -103,16 +103,16 @@ ZydisFormatterFunc default_print_mnemonic;
 static ZyanStatus ZydisFormatterPrintMnemonic(const ZydisFormatter* formatter,
     ZydisFormatterBuffer* buffer, ZydisFormatterContext* context)
 {
-    // We use the user-data to pass data to the `ZydisFormatterFormatOperandImm` function
+    /* We use the user-data to pass data to the `ZydisFormatterFormatOperandImm` function */
     ZydisCustomUserData* user_data = (ZydisCustomUserData*)context->user_data;
     user_data->omit_immediate = ZYAN_TRUE;
 
-    // Rewrite the instruction-mnemonic for the given instructions
+    /* Rewrite the instruction-mnemonic for the given instructions */
     if (context->instruction->operand_count_visible &&
         context->operands[context->instruction->operand_count_visible - 1].type ==
         ZYDIS_OPERAND_TYPE_IMMEDIATE)
     {
-        // Retrieve the `ZyanString` instance of the formatter-buffer
+        /* Retrieve the `ZyanString` instance of the formatter-buffer */
         ZyanString* string;
         ZYAN_CHECK(ZydisFormatterBufferGetString(buffer, &string));
 
@@ -157,11 +157,11 @@ static ZyanStatus ZydisFormatterPrintMnemonic(const ZydisFormatter* formatter,
         }
     }
 
-    // We did not rewrite the instruction-mnemonic. Signal the `ZydisFormatterFormatOperandImm`
-    // function not to omit the operand
+    /* We did not rewrite the instruction-mnemonic. Signal the `ZydisFormatterFormatOperandImm` */
+    /* function not to omit the operand */
     user_data->omit_immediate = ZYAN_FALSE;
 
-    // Default mnemonic printing
+    /* Default mnemonic printing */
     return default_print_mnemonic(formatter, buffer, context);
 }
 
@@ -172,15 +172,15 @@ ZydisFormatterFunc default_format_operand_imm;
 static ZyanStatus ZydisFormatterFormatOperandIMM(const ZydisFormatter* formatter,
     ZydisFormatterBuffer* buffer, ZydisFormatterContext* context)
 {
-    // The `ZydisFormatterFormatMnemonic` sinals us to omit the immediate (condition-code)
-    // operand, because it got replaced by the alias-mnemonic
+    /* The `ZydisFormatterFormatMnemonic` sinals us to omit the immediate (condition-code) */
+    /* operand, because it got replaced by the alias-mnemonic */
     const ZydisCustomUserData* user_data = (ZydisCustomUserData*)context->user_data;
     if (user_data->omit_immediate)
     {
         return ZYDIS_STATUS_SKIP_TOKEN;
     }
 
-    // Default immediate formatting
+    /* Default immediate formatting */
     return default_format_operand_imm(formatter, buffer, context);
 }
 
@@ -244,16 +244,16 @@ int main(void)
 
     ZyanU8 data[] =
     {
-        // nop
+        /* nop */
         0x90,
 
-        // cmpps xmm1, xmm4, 0x03
+        /* cmpps xmm1, xmm4, 0x03 */
         0x0F, 0xC2, 0xCC, 0x03,
 
-        // vcmppd xmm1, xmm2, xmm3, 0x17
+        /* vcmppd xmm1, xmm2, xmm3, 0x17 */
         0xC5, 0xE9, 0xC2, 0xCB, 0x17,
 
-        // vcmpps k2 {k7}, zmm2, dword ptr ds:[rax + rbx*4 + 0x100] {1to16}, 0x0F
+        /* vcmpps k2 {k7}, zmm2, dword ptr ds:[rax + rbx*4 + 0x100] {1to16}, 0x0F */
         0x62, 0xF1, 0x6C, 0x5F, 0xC2, 0x54, 0x98, 0x40, 0x0F
     };
 
