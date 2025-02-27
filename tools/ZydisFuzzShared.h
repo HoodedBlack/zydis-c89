@@ -49,7 +49,7 @@ typedef ZyanUSize(*ZydisStreamRead)(void *ctx, ZyanU8 *buf, ZyanUSize max_len);
 #   define ZYDIS_MAYBE_FPUTS(x, y) fputs(x, y)
 #endif
 
-// Existing tools and seed corpora depend on this heavily
+/* Existing tools and seed corpora depend on this heavily */
 enum ZyanEnumSizeCheck_ { ZYAN_ENUM_SIZE_CHECK = 1 };
 ZYAN_STATIC_ASSERT(sizeof(enum ZyanEnumSizeCheck_) == 4);
 
@@ -83,7 +83,7 @@ void ZydisValidateInstructionIdentity(const ZydisDecodedInstruction* insn1,
 void ZydisReEncodeInstruction(const ZydisDecoder* decoder, const ZydisDecodedInstruction* insn1,
     const ZydisDecodedOperand* operands1, ZyanU8 operand_count, const ZyanU8 *insn1_bytes);
 
-// One `ZydisFuzzTarget` must be defined for every fuzz target project
+/* One `ZydisFuzzTarget` must be defined for every fuzz target project */
 extern int ZydisFuzzTarget(ZydisStreamRead read_fn, void *stream_ctx);
 
 /* ============================================================================================== */
