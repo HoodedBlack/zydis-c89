@@ -100,8 +100,8 @@ ZyanU32 ZydisFormatterHelperGetExplicitSize(const ZydisFormatter* formatter,
 
     if (!context->operands)
     {
-        // Single operand formatting. We can not derive the explicit size by using the other
-        // operands.
+        /* Single operand formatting. We can not derive the explicit size by using the other */
+        /* operands. */
         return 0;
     }
 
@@ -200,7 +200,7 @@ ZyanStatus ZydisFormatterBaseFormatOperandIMM(const ZydisFormatter* formatter,
     ZYAN_ASSERT(buffer);
     ZYAN_ASSERT(context);
 
-    // The immediate operand contains an address
+    /* The immediate operand contains an address */
     if (context->operand->imm.is_relative)
     {
         const ZyanBool absolute = !formatter->force_relative_branches &&
@@ -212,7 +212,7 @@ ZyanStatus ZydisFormatterBaseFormatOperandIMM(const ZydisFormatter* formatter,
         return formatter->func_print_address_rel(formatter, buffer, context);
     }
 
-    // The immediate operand contains an actual ordinal value
+    /* The immediate operand contains an actual ordinal value */
     return formatter->func_print_imm(formatter, buffer, context);
 }
 
@@ -434,7 +434,8 @@ ZyanStatus ZydisFormatterBasePrintPrefixes(const ZydisFormatter* formatter,
 
     if (formatter->detailed_prefixes)
     {
-        for (ZyanU8 i = 0; i < context->instruction->raw.prefix_count; ++i)
+        ZyanU8 i;
+        for (i = 0; i < context->instruction->raw.prefix_count; ++i)
         {
             const ZyanU8 value = context->instruction->raw.prefixes[i].value;
             switch (context->instruction->raw.prefixes[i].type)
@@ -446,7 +447,7 @@ ZyanStatus ZydisFormatterBasePrintPrefixes(const ZydisFormatter* formatter,
                 {
                     if (buffer->is_token_list)
                     {
-                        // TODO: Case
+                        /* TODO: Case */
                         ZYAN_CHECK(ZydisFormatterBufferAppendPredefined(buffer,
                             TOK_PREF_REX[value & 0x0F]));
                     } else
@@ -614,8 +615,8 @@ ZyanStatus ZydisFormatterBasePrintDecorator(const ZydisFormatter* formatter,
                 ZYAN_CHECK(ZydisStringAppendShort(&buffer->string, &STR_DECO_END));
             }
 
-            // Only print the zeroing decorator, if the instruction is not a "zeroing masking only"
-            // instruction (e.g. `vcmpsd`)
+            /* Only print the zeroing decorator, if the instruction is not a "zeroing masking only" */
+            /* instruction (e.g. `vcmpsd`) */
             if ((context->instruction->avx.mask.mode == ZYDIS_MASK_MODE_ZEROING ||
                  context->instruction->avx.mask.mode == ZYDIS_MASK_MODE_CONTROL_ZEROING) &&
                 (context->instruction->raw.evex.z))
@@ -728,7 +729,7 @@ ZyanStatus ZydisFormatterBasePrintDecorator(const ZydisFormatter* formatter,
         {
         case ZYDIS_SWIZZLE_MODE_INVALID:
         case ZYDIS_SWIZZLE_MODE_DCBA:
-            // Nothing to do here
+            /* Nothing to do here */
             break;
         case ZYDIS_SWIZZLE_MODE_CDAB:
             ZYDIS_BUFFER_APPEND_CASE(buffer, DECO_CDAB, formatter->case_decorators);
