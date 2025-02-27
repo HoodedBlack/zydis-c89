@@ -63,7 +63,7 @@ typedef ZyanU8 ZydisOperandAttributes;
  *
  * Example: ZMM3 -> [ZMM3..ZMM6]
  */
-#define ZYDIS_OATTRIB_IS_MULTISOURCE4   0x01 // (1 <<  0)
+#define ZYDIS_OATTRIB_IS_MULTISOURCE4   0x01 /* (1 <<  0) */
 
 /* ---------------------------------------------------------------------------------------------- */
 /* Memory type                                                                                    */
@@ -466,7 +466,7 @@ typedef enum ZydisBranchType_
 typedef enum ZydisExceptionClass_
 {
     ZYDIS_EXCEPTION_CLASS_NONE,
-    // TODO: FP Exceptions
+    /* TODO: FP Exceptions */
     ZYDIS_EXCEPTION_CLASS_SSE1,
     ZYDIS_EXCEPTION_CLASS_SSE2,
     ZYDIS_EXCEPTION_CLASS_SSE3,
@@ -727,7 +727,7 @@ typedef enum ZydisPrefixType_
     ZYDIS_PREFIX_TYPE_REQUIRED_BITS = ZYAN_BITS_TO_REPRESENT(ZYDIS_PREFIX_TYPE_MAX_VALUE)
 } ZydisPrefixType;
 
-// TODO: Check effective for 66/67 prefixes (currently defaults to EFFECTIVE)
+/* TODO: Check effective for 66/67 prefixes (currently defaults to EFFECTIVE) */
 
 /* ---------------------------------------------------------------------------------------------- */
 /* Decoded instruction                                                                            */
@@ -1071,7 +1071,7 @@ typedef struct ZydisDecodedInstructionAvx_
      * Signals, if the instruction has a memory-eviction-hint (`KNC` only).
      */
     ZyanBool has_eviction_hint;
-    // TODO: publish EVEX tuple-type and MVEX functionality
+    /* TODO: publish EVEX tuple-type and MVEX functionality */
 } ZydisDecodedInstructionAvx;
 
 /**
@@ -1204,7 +1204,7 @@ typedef struct ZydisDecodedInstructionRaw_
          * The physical displacement size, in bits.
          */
         ZyanU8 size;
-        // TODO: publish cd8 scale
+        /* TODO: publish cd8 scale */
         /**
          * The offset of the displacement data, relative to the beginning of the
          * instruction, in bytes.
@@ -1447,7 +1447,7 @@ typedef struct ZydisDecoderContext_
     /**
      * The scale factor for EVEX/MVEX compressed 8-bit displacement values.
      */
-    ZyanU8 cd8_scale; // TODO: Could make sense to expose this in the ZydisDecodedInstruction
+    ZyanU8 cd8_scale; /* TODO: Could make sense to expose this in the ZydisDecodedInstruction */
 } ZydisDecoderContext;
 
 /* ---------------------------------------------------------------------------------------------- */
