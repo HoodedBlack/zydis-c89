@@ -56,7 +56,7 @@ extern "C" {
  */
 #define ZYDIS_ENCODER_MAX_OPERANDS 5
 
-// If asserts are failing here remember to update encoder table generator before fixing asserts
+/* If asserts are failing here remember to update encoder table generator before fixing asserts */
 ZYAN_STATIC_ASSERT(ZYAN_BITS_TO_REPRESENT(ZYDIS_ENCODER_MAX_OPERANDS) == 3);
 
 /**
